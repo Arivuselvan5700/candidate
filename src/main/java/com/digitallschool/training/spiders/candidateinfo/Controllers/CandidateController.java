@@ -17,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +38,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author yesubabu
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/candidates")
 public class CandidateController {
 
@@ -57,7 +61,7 @@ public class CandidateController {
     }
 
     @PostMapping("/upload")
-    public String upload(Model model, @RequestParam("files") MultipartFile file) {
+    public String upload(Model model, @RequestParam MultipartFile file) {
         StringBuilder fileNames = new StringBuilder();
 
         System.out.println("check" + file);
@@ -117,7 +121,7 @@ public class CandidateController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void addCandidate(@ModelAttribute Candidate candidate) {
+    public void addCandidate(@RequestBody Candidate candidate, BindingResult binding) {
         candidateService.addCandidate(candidate);
     }
 
